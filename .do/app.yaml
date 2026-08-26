@@ -1,0 +1,34 @@
+# DigitalOcean App Platform デプロイ設定
+# https://docs.digitalocean.com/products/app-platform/reference/app-spec/
+#
+# 使い方:
+#   1. repo を自分のアカウントにフォークし、下の repo を書き換える
+#   2. TARGET_URL の value を転送先に書き換える
+#   3. doctl auth init
+#      doctl apps create --spec .do/app.yaml
+#    （またはダッシュボードの "Create App > Doctl" / "Launch" から）
+#
+name: reverse-proxy
+region: nyc # nyc / ams / fra / sfo / sgp / blr / lon / syd / tor
+services:
+  - name: web
+    github:
+      repo: YOUR_GITHUB_USERNAME/proxy
+      branch: main
+      deploy_on_push: true
+    build_command: npm ci
+    run_command: npm start
+    environment_slug: node-js
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    http_port: 8080
+    envs:
+      - key: TARGET_URL
+        scope: RUN_AND_BUILD_SECRET
+        value: "https://example.com"
+      - key: TLS_VERIFY
+        scope: RUN_AND_BUILD
+        value: "true"
+      - key: LOG
+        scope: RUN_AND_BUILD
+        value: "true"

@@ -1,0 +1,27 @@
+{
+  "name": "reverse-proxy",
+  "version": "1.0.0",
+  "description": "Simple reverse proxy. Forwards every request to TARGET_URL set in .env or environment variables.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node test/run-tests.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/woolisbest-honke/proxy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/woolisbest-honke/proxy/issues"
+  },
+  "homepage": "https://github.com/woolisbest-honke/proxy#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "http-proxy": "^1.18.1"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,25 @@
+# Fly.io デプロイ設定
+# https://fly.io/docs/reference/configuration/
+#
+# 使い方:
+#   1. fly auth signup / fly login
+#   2. fly launch   （この fly.toml を検出する。app 名は一意に変更すること）
+#   3. fly secrets set TARGET_URL=https://example.com
+#   4. fly deploy
+#
+# 注意: ヘルスチェックは転送先の "/" への GET を透過する。
+
+app = "reverse-proxy" # 一意の名前に変更する
+primary_region = "nrt" # 東京。他: sin, hkg, nrt, lax など
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = "suspend"
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[http_service.checks]]
+  path = "/"
+  interval = "30s"
+  timeout = "5s"

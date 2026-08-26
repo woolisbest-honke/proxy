@@ -1,0 +1,24 @@
+# Netlify デプロイ設定（リダイレクトによるプロキシ）
+# https://docs.netlify.com/routing/redirects/
+#
+# Netlify のリダイレクトは環境変数の展開に対応していないため、
+# Netlify 公式のワークアラウンドどおり、ビルド時に sed で
+# プレースホルダー __TARGET_URL__ を差し替える。
+#
+# 使い方:
+#   1. Netlify のダッシュボードで環境変数 TARGET_URL を設定（Builds スコープ）
+#   2. Git からデプロイ
+#
+# 注意: この方式は Netlify のエッジリライトで転送するため、
+#       Location ヘッダーや Set-Cookie の書き換え（server.js 側の機能）は行われない。
+#       それらが必要な場合は Render / Railway / Fly 等を使うこと。
+
+[build]
+  publish = "public"
+  command = "sed -i \"s|__TARGET_URL__|${TARGET_URL}|g\" netlify.toml && echo 'redirect target injected'"
+
+[[redirects]]
+  from = "/*"
+  to = "__TARGET_URL__/:splat"
+  status = 200
+  force = true

@@ -1,0 +1,15 @@
+# Heroku container スタック用の設定（Dockerfile でビルド）
+# https://devcenter.heroku.com/articles/build-docker-images-heroku-yml
+#
+# 使い方（container スタックを使用する場合）:
+#   heroku stack:set container
+#   heroku create your-app-name
+#   heroku config:set TARGET_URL=https://example.com
+#   git push heroku main
+#
+# ※ buildpack（nodejs）スタックで使う場合は Procfile の方が使われ、
+#    このファイルは無視される。どちらか一方でOK。
+
+build:
+  docker:
+    web: Dockerfile

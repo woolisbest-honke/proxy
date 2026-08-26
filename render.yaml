@@ -1,0 +1,29 @@
+# Render デプロイ設定（Blueprint）
+# https://render.com/docs/blueprint-spec
+#
+# 使い方:
+#   1. Render のダッシュボードで "New > Blueprint" からこのリポジトリを選択
+#   2. TARGET_URL を入力（sync: false のためデプロイ時に聞かれる）
+#
+services:
+  - type: web
+    name: reverse-proxy
+    runtime: node
+    region: singapore # oregon / frankfurt / ohio / singapore から選択
+    plan: free # 無料枠。安定運用には starter 以上を推奨
+    buildCommand: npm ci
+    startCommand: npm start
+    autoDeploy: true
+    # ヘルスチェックは転送先の "/" を叩くため、paid プランでのみ有効にする場合:
+    # healthCheckPath: /
+    envVars:
+      - key: TARGET_URL
+        sync: false # ダッシュボードで入力する（例: https://example.com）
+      - key: TLS_VERIFY
+        value: "true"
+      - key: PROXY_TIMEOUT_MS
+        value: "30000"
+      - key: FORWARD_CLIENT_IP
+        value: "false"
+      - key: LOG
+        value: "true"

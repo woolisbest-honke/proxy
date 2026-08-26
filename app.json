@@ -1,0 +1,44 @@
+{
+  "name": "reverse-proxy",
+  "description": ".env / 環境変数の TARGET_URL へ、すべてのリクエストをそのまま転送するリバースプロキシ（元サイトのIPを隠す）",
+  "repository": "https://github.com/woolisbest-honke/proxy",
+  "keywords": ["proxy", "reverse-proxy", "nodejs"],
+  "success_url": "/",
+  "env": {
+    "TARGET_URL": {
+      "description": "転送先のURL（例: https://example.com）",
+      "required": true
+    },
+    "TLS_VERIFY": {
+      "description": "転送先のTLS証明書を検証する（自己署名なら false）",
+      "value": "true",
+      "required": false
+    },
+    "PROXY_TIMEOUT_MS": {
+      "description": "転送先の応答待ちタイムアウト（ミリ秒）",
+      "value": "30000",
+      "required": false
+    },
+    "FORWARD_CLIENT_IP": {
+      "description": "転送先へ X-Forwarded-For を送るか",
+      "value": "false",
+      "required": false
+    },
+    "LOG": {
+      "description": "アクセスログを出力するか",
+      "value": "true",
+      "required": false
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "instance_type": "eco"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
