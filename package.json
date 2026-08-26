@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/woolisbest-honke/proxy#readme",
   "dependencies": {
-    "dotenv": "^16.4.5",
+    "dotenv": "^17.4.2",
     "http-proxy": "^1.18.1"
   },
   "license": "MIT"
